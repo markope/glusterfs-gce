@@ -9,8 +9,11 @@ fi
 
 VOLUME=$1
 
+
 # Get settings from the file
 source cluster/settings
+
+COUNT2=$(expr ${COUNT} / 2)
 
 # Create the folder for the volume
 for (( i=1; i<=${COUNT}; i++ ))
@@ -24,10 +27,14 @@ echo " "
 
 # run on server1
 # create volume
-gcloud compute ssh --zone ${REGION}-${ZONES[0]} ${SERVER}-1 --command "sudo gluster volume create ${VOLUME} replica ${COUNT} ${CLUSTER}"
+gcloud compute ssh --zone ${REGION}-${ZONES[0]} ${SERVER}-1 --command "sudo gluster volume create ${VOLUME} stripe ${COUNT2} replica ${COUNT2} ${CLUSTER}"
 
 # start volume
 gcloud compute ssh --zone ${REGION}-${ZONES[0]} ${SERVER}-1 --command "sudo gluster volume start ${VOLUME}"
 
 # check volumes
 gcloud compute ssh --zone ${REGION}-${ZONES[0]} ${SERVER}-1 --command "sudo gluster volume info"
+
+# enable bitrot scrubbing (biweekly)
+gcloud compute ssh --zone ${REGION}-${ZONES[0]} ${SERVER}-1 --command "sudo gluster volume bitrot ${VOLUME} enable"
+

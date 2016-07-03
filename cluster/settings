@@ -1,29 +1,31 @@
 # Google Cloud settings
 # project
-PROJECT=replace_with_your_project
+PROJECT=record-1283
 
 # your cluster region and zones
 REGION=europe-west1
-ZONES=(b c d)
+ZONES=(b c b c)
 #
 
 # Cluster servers
-SERVER=gfs-cluster1-server
+SERVER=gfs-cluster3-server
 
 # internal static IPs
-STATIC_IP=(10.244.231.10 10.244.232.10 10.244.233.10)
+STATIC_IP=(10.244.234.11 10.244.235.11 10.244.236.11 10.244.237.11)
 
 # persistent disks
-DISK=gfs-cluster1-brick
-SIZE=350GB
+# standard-pd type disks are configured. Below 100GB is not recommended by google.
+
+DISK=gfs-cluster3-brick
+SIZE=500GB
 
 # VM type
-MACHINE_TYPE=n1-standard-2
+MACHINE_TYPE=g1-small
 
 # image
 IMAGE=$(gcloud compute images list | grep -v grep | grep ubuntu-1604 | awk {'print $1'})
 
-# count
-COUNT=3
+# count must be a multipe of 2 because of replicate stripe
+COUNT=4
 
 SPACE=" "
