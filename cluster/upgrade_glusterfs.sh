@@ -12,3 +12,8 @@ do
   echo " "
 done
 echo " "
+
+
+# sudo add-apt-repository ppa:gluster/glusterfs-3.8
+# sudo apt-get update
+# sudo apt-get install --only-upgrade glusterfs-server
